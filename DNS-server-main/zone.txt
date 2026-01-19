@@ -1,0 +1,22 @@
+# Format: domain record_type internal_ip external_ip
+
+example.com. IN A 192.168.1.10 8.8.8.8
+test.com. IN A 192.168.1.20 8.8.4.4
+mywebsite.com. IN A 192.168.1.30 1.1.1.1
+internalapp.com. IN A 192.168.1.40 8.8.8.8
+mail.example.com. IN A 192.168.1.50 8.8.8.8
+blog.example.com. IN A 192.168.1.60 1.0.0.1
+shop.com. IN A 192.168.1.70 8.8.4.4
+services.com. IN A 192.168.1.80 8.8.8.8
+admin.example.com. IN A 192.168.1.90 8.8.8.8
+app.com. IN A 192.168.1.100 1.1.1.1
+internalserver.com. IN A 192.168.2.10 8.8.8.8
+company.com. IN A 192.168.2.20 1.1.1.1
+vpn.example.com. IN A 192.168.2.30 8.8.8.8
+database.com. IN A 192.168.2.40 8.8.4.4
+support.com. IN A 192.168.2.50 1.0.0.1
+sales.example.com. IN A 192.168.3.10 8.8.8.8
+hr.example.com. IN A 192.168.3.20 1.1.1.1
+finance.com. IN A 192.168.3.30 8.8.4.4
+network.com. IN A 192.168.3.40 8.8.8.8
+documentation.com. IN A 192.168.3.50 1.0.0.1
