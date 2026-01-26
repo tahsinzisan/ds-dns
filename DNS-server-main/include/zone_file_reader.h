@@ -1,20 +1,20 @@
-#ifndef ZONE_FILE_READER_H
-#define ZONE_FILE_READER_H
-
-#include <string>
-#include <map>
-using namespace std;
+#include <nlohmann/json.hpp>
 
 class ZoneFileReader {
-public:
-    ZoneFileReader(const string& zone_file_path);
-    bool load_zone_file();
-    string get_ip_for_domain(string& domain, bool is_internal);
-
 private:
-    string zone_file_path_;
-    map<string, pair<string, string>> zone_records_;
+    std::string zone_file_path_;
+    std::string leader_ip_;
+    std::vector<std::string> l1_servers_;
+    std::vector<std::string> l2_servers_;
 
+public:
+    ZoneFileReader(const std::string& filename);
+
+    bool load_zone_file();
+    std::string get_ip_for_domain(const std::string& key, bool is_internal);
+
+    std::string keyHashL1(const std::string& key);
+    std::string keyHashL2(const std::string& key);
+
+    std::string com(const std::string& ip, const std::string& msg);
 };
-
-#endif 
