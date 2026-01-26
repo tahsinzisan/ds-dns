@@ -42,7 +42,7 @@ def parseStart(start):
                 if contErr >200:
                     parseStart(errStart)
                 contErr = 0
-            except socket.gaierror as e:
+            except Exception as e:
                 print(f"Failed to resolve {RED}{domain}: {e}{RESET}")
                 if not contErr:
                     errStart = num
@@ -93,3 +93,5 @@ for head in 'abcdefghijklmnopqrstuvwxyz0123456789':
         continue
 
 parseStart(start+1)
+
+
