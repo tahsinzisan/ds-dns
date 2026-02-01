@@ -115,7 +115,7 @@ class Raft:
 
         
     def sendRead(self, domain):
-        if not self._states.leader:
+        if self._states.leader:
             self.sendToFollower(8000, domain+'\n')
 
 
