@@ -18,7 +18,7 @@ class Batch:
         task.start()
 
     def process(self):
-        return 
+
         for shard in self._states.selfRecords:
             try:
                 with open(f'../records/{shard}.txt', 'r') as f:
@@ -32,14 +32,14 @@ class Batch:
                         dom, t, ip = parts
                         try:
                             rip = socket.gethostbyname(dom)
-                            '''if rip != ip:
+                            if rip != ip:
                                 # FIX: was sending to port 8000 (READ server) — must be 9000 (WRITE)
                                 # FIX: added '\n' terminator required by server's readline()
                                 print('not match')
                                 self._raft._send_raw(
                                     self._states.leaderIp, 9000,
                                     f'1;{dom},{t},{rip}\n'
-                                )'''
+                                )
                         except Exception as e:
                             print(f"[BATCH] Failed to resolve {RED}{dom}: {e}{RESET}")
             except FileNotFoundError:

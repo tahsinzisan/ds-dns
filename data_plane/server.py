@@ -3,16 +3,20 @@ import threading
 
 
 class Server:
+
+
     """
     Three TCP servers each running in their own thread:
       Port 8000 — READ  (authoritative DNS lookups)
-      Port 9000 — WRITE (Raft log replication)
-      Port 7001 — SYNC  (Raft heartbeats)
+      Port 9000 — WRITE (write replication)
+      Port 7001 — SYNC  (raft heartbeats)
 
     READ protocol:
       "yahoo.com\n"        — request from control plane (fan out if needed)
       "PEER:yahoo.com\n"   — request from another data plane node (local lookup only)
     """
+
+
 
     def __init__(self, recordReader, _writer, _states, _raft):
         self._recordReader = recordReader
@@ -49,6 +53,7 @@ class Server:
     # ------------------------------------------------------------------
 
     def handle_read(self, conn, addr):
+        print('inside read handle')
         try:
             f = conn.makefile('r')
             while True:
@@ -77,6 +82,7 @@ class Server:
             conn.close()
 
     def _local_lookup(self, domain):
+        print('inside local lookup')
         """Only check this node's own shard — no fanout."""
         if domain and domain[0].lower() in self._states.selfRecords:
             return self._recordReader.recordResponse(domain, "A")
@@ -84,6 +90,7 @@ class Server:
 
     def _resolve(self, domain):
         # Try local shard first
+        print('resolve start')
         record = self._local_lookup(domain)
         if record != 'N/A':
             return record
@@ -95,11 +102,12 @@ class Server:
                 return record
             # Still not found — resolve via live DNS and write
             return self._writer.newRecord(domain)
-
+        print('resolve end')
         # Follower: forward to leader
         return self._forward_to_leader(domain)
 
     def _forward_to_leader(self, domain):
+        print('forward to leader start')
         try:
             s = socket.socket()
             s.settimeout(5)

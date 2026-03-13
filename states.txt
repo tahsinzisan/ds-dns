@@ -1,0 +1,26 @@
+{
+  "selfIp": "172.19.0.6",
+  "nodes": {
+    "172.19.0.6": 1,
+    "172.19.0.4": 2,
+    "172.19.0.5": 3
+  },
+  "rank": 1,
+  "lastRank": 3,
+  "leader": true,
+  "beatInterval": 100,
+  "leaderDead": 300,
+  "nodeCount": 3,
+  "leaderIp": "172.19.0.6",
+  "selfRecords": [
+    "a",
+    "d",
+    "e",
+    "b",
+    "c",
+    "f",
+    "i",
+    "h",
+    "g"
+  ]
+}
