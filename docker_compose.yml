@@ -1,0 +1,104 @@
+services:
+  cleaner:
+    image: python:3.11-slim
+    volumes:
+      - .:/project
+    entrypoint:
+      - sh
+      - -c
+      - |
+        rm -f /project/self_ip_*.txt
+        echo "cleaned"
+    networks:
+      - dnsnet
+
+  node1:
+    image: python:3.11-slim
+    working_dir: /project/data_plane
+    volumes:
+      - .:/project
+    entrypoint:
+      - sh
+      - -c
+      - |
+        sleep 2
+        hostname -i | tr -d ' \n' > /project/self_ip_node1.txt
+        python3 main.py
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+      - "7001:7001"
+    depends_on:
+      - cleaner
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - dnsnet
+
+  node2:
+    image: python:3.11-slim
+    working_dir: /project/data_plane
+    volumes:
+      - .:/project
+    entrypoint:
+      - sh
+      - -c
+      - |
+        sleep 2
+        hostname -i | tr -d ' \n' > /project/self_ip_node2.txt
+        python3 main.py
+    depends_on:
+      - cleaner
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - dnsnet
+
+  node3:
+    image: python:3.11-slim
+    working_dir: /project/data_plane
+    volumes:
+      - .:/project
+    entrypoint:
+      - sh
+      - -c
+      - |
+        sleep 2
+        hostname -i | tr -d ' \n' > /project/self_ip_node3.txt
+        python3 main.py
+    depends_on:
+      - cleaner
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - dnsnet
+
+  l1cache:
+    image: python:3.11-slim
+    working_dir: /project
+    volumes:
+      - .:/project
+    command: python3 caches/l1_cache.py 8100
+    ports:
+      - "8100:8100"
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - dnsnet
+
+  l2cache:
+    image: python:3.11-slim
+    working_dir: /project
+    volumes:
+      - .:/project
+    command: python3 caches/l2_cache.py 8200
+    ports:
+      - "8200:8200"
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - dnsnet
+
+networks:
+  dnsnet:
+    driver: bridge

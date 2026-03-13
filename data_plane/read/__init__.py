@@ -1,1 +1,1 @@
-from _read import Reader
+from ._read import Reader
